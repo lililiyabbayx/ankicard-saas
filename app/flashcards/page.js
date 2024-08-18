@@ -1,8 +1,15 @@
-"use client";
+"use client"; // Add this directive at the top of your file
 
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  writeBatch,
+  deleteDoc,
+} from "firebase/firestore";
 import { db } from "@/firebase";
 import {
   Container,
@@ -12,6 +19,8 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  CardActions,
+  Button,
   TextField,
 } from "@mui/material";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -25,6 +34,8 @@ export default function Flashcards() {
   const search = searchParams.get("id");
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [editCollectionId, setEditCollectionId] = useState(null);
+  const [newCollectionName, setNewCollectionName] = useState("");
 
   useEffect(() => {
     async function getCollections() {
@@ -36,7 +47,13 @@ export default function Flashcards() {
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        setCollections(data.flashcards || []);
+        const collectionsWithId = (data.flashcards || []).map(
+          (collection, index) => ({
+            ...collection,
+            id: collection.id || index, // Ensure there's a unique ID
+          })
+        );
+        setCollections(collectionsWithId);
       }
     }
     getCollections();
@@ -70,10 +87,59 @@ export default function Flashcards() {
     }));
   };
 
-  // Filter collections based on the search query
   const filteredCollections = collections.filter((collection) =>
     collection.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleEdit = (id) => {
+    const collectionToEdit = collections.find(
+      (collection) => collection.id === id
+    );
+    if (collectionToEdit) {
+      setEditCollectionId(id);
+      setNewCollectionName(collectionToEdit.name);
+    }
+  };
+
+  const handleSaveEdit = async () => {
+    if (!newCollectionName) {
+      alert("Please enter a new name");
+      return;
+    }
+
+    const userDocRef = doc(collection(db, "users"), user.id);
+    const batch = writeBatch(db);
+
+    const updatedCollections = collections.map((collection) =>
+      collection.id === editCollectionId
+        ? { ...collection, name: newCollectionName }
+        : collection
+    );
+    batch.set(userDocRef, { flashcards: updatedCollections }, { merge: true });
+
+    await batch.commit();
+    setCollections(updatedCollections);
+    setEditCollectionId(null);
+    setNewCollectionName("");
+  };
+
+  const handleCancelEdit = () => {
+    setEditCollectionId(null);
+    setNewCollectionName("");
+  };
+
+  const handleDelete = async (id) => {
+    const userDocRef = doc(collection(db, "users"), user.id);
+    const batch = writeBatch(db);
+
+    const updatedCollections = collections.filter(
+      (collection) => collection.id !== id
+    );
+    batch.set(userDocRef, { flashcards: updatedCollections }, { merge: true });
+
+    await batch.commit();
+    setCollections(updatedCollections);
+  };
 
   if (!isLoaded || !isSignedIn) {
     return <></>;
@@ -102,23 +168,68 @@ export default function Flashcards() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Grid container spacing={3} sx={{ mt: 4 }}>
-              {filteredCollections.map((collection, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card>
-                    <CardActionArea
-                      onClick={() => handleCollectionClick(collection.name)}
-                    >
-                      <CardContent>
-                        <Typography variant="h5" component="div">
-                          {collection.name}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+            {editCollectionId === null ? (
+              <Grid container spacing={3} sx={{ mt: 4 }}>
+                {filteredCollections.map((collection) => (
+                  <Grid item xs={12} sm={6} md={4} key={collection.id}>
+                    <Card>
+                      <CardActionArea
+                        onClick={() => handleCollectionClick(collection.name)}
+                      >
+                        <CardContent>
+                          <Typography variant="h5" component="div">
+                            {collection.name}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions>
+                        <Button onClick={() => handleEdit(collection.id)}>
+                          Edit
+                        </Button>
+                        <Button onClick={() => handleDelete(collection.id)}>
+                          Delete
+                        </Button>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            ) : (
+              <Box
+                sx={{
+                  mt: 4,
+                  mb: 6,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="h6">Edit Collection Name</Typography>
+                <TextField
+                  label="New Collection Name"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mt: 3, mb: 3 }}
+                  value={newCollectionName}
+                  onChange={(e) => setNewCollectionName(e.target.value)}
+                />
+                <Button
+                  onClick={handleSaveEdit}
+                  color="primary"
+                  variant="contained"
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={handleCancelEdit}
+                  color="secondary"
+                  variant="contained"
+                  sx={{ ml: 2 }}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            )}
           </Box>
         ) : (
           <Container maxWidth="100vw">
