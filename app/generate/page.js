@@ -127,162 +127,176 @@ export default function Generate() {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box
-        sx={{
-          mt: 4,
-          mb: 6,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h4">Generate FlashCards</Typography>
-        <Paper sx={{ p: 5, width: "50%" }}>
-          <TextField
-            label="Type here"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            multiline
-            rows={2}
-            variant="outlined"
-            sx={{
-              mb: 2,
-              width: "100%",
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ mt: 2, left: "50%", transform: "translateX(-50%)" }}
-            onClick={handleSubmit}
-          >
-            Submit
+    <>
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" onClick={() => router.push("/flashcards")}>
+            Collections
           </Button>
-        </Paper>
-      </Box>
-      {loading && (
-        <Box marginTop={4} align="center">
-          <Typography variant="h6" component="h2" gutterBottom>
-            Generating flashcards...
-          </Typography>
-          <CircularProgress align="center" sx={{ color: "text.primary" }} />
-        </Box>
-      )}
-      {flashcards.length > 0 && (
-        <Box sx={{ mt: 4, mb: 4 }}>
-          <Typography variant="h5" gutterBottom align="center">
-            Flashcards Preview
-          </Typography>
-          <Grid container spacing={3}>
-            {flashcards.map((flashcard, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card>
-                  <CardActionArea onClick={() => handleCardClick(index)}>
-                    <CardContent sx={{ margin: 0, padding: 0 }}>
-                      <Box
-                        sx={{
-                          perspective: "1000px",
-                          "& > div": {
-                            backgroundColor: "#FFFFFF",
-                            transition: "transform 0.6s",
-                            transformStyle: "preserve-3d",
-                            position: "relative",
-                            width: "100%",
-                            height: "200px",
-                            background: "linear-gradient(#000000, #000000)",
-                            transform: flipped[index]
-                              ? "rotateY(180deg)"
-                              : "rotateY(0deg)",
-                          },
-                          "& > div > div": {
-                            backgroundColor: "#FFFFFF",
-                            position: "absolute",
-                            width: "100%",
-                            height: "200px",
-                            backfaceVisibility: "hidden",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            padding: 2,
-                            boxSizing: "border-box",
-                          },
-                          "& > div > div:nth-of-type(1)": {
-                            backgroundColor: "#FFFFFF",
-                            visibility: flipped[index] ? "hidden" : "visible",
-                          },
-                          "& > div > div:nth-of-type(2)": {
-                            backgroundColor: "#FFFFFF",
-                            transform: "rotateY(180deg)",
-                            visibility: flipped[index] ? "visible" : "hidden",
-                          },
-                        }}
-                      >
-                        <div>
-                          <div>
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{
-                                fontSize: "1.3rem",
-                                padding: "10px",
-                              }}
-                            >
-                              {flashcard.front}
-                            </Typography>
-                          </div>
-                          <div>
-                            <Typography
-                              variant="h5"
-                              component="div"
-                              sx={{
-                                fontSize: "1.0rem",
-                              }}
-                            >
-                              {flashcard.back}
-                            </Typography>
-                          </div>
-                        </div>
-                      </Box>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-          <Box sx={{ mt: 4, mb: 4, display: "flex", justifyContent: "center" }}>
+          <Button color="inherit" onClick={() => router.push("/generate")}>
+            Generate
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth="md">
+        <Box
+          sx={{
+            mt: 4,
+            mb: 6,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4">Generate FlashCards</Typography>
+          <Paper sx={{ p: 5, width: "50%" }}>
+            <TextField
+              label="Type here"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              multiline
+              rows={2}
+              variant="outlined"
+              sx={{
+                mb: 2,
+                width: "100%",
+              }}
+            />
             <Button
               variant="contained"
-              sx={{ backgroundColor: "#1565c0" }}
-              onClick={handleOpen}
+              color="primary"
+              sx={{ mt: 2, left: "50%", transform: "translateX(-50%)" }}
+              onClick={handleSubmit}
             >
-              Save
+              Submit
             </Button>
-          </Box>
+          </Paper>
         </Box>
-      )}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Save Flashcards</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter a name for your flashcards collection
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Collection Name"
-            type="text"
-            fullWidth
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            variant="outlined"
-          ></TextField>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={saveFlashcards}>Save</Button>
-        </DialogActions>
-      </Dialog>
-    </Container>
+        {loading && (
+          <Box marginTop={4} align="center">
+            <Typography variant="h6" component="h2" gutterBottom>
+              Generating flashcards...
+            </Typography>
+            <CircularProgress align="center" sx={{ color: "text.primary" }} />
+          </Box>
+        )}
+        {flashcards.length > 0 && (
+          <Box sx={{ mt: 4, mb: 4 }}>
+            <Typography variant="h5" gutterBottom align="center">
+              Flashcards Preview
+            </Typography>
+            <Grid container spacing={3}>
+              {flashcards.map((flashcard, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card>
+                    <CardActionArea onClick={() => handleCardClick(index)}>
+                      <CardContent sx={{ margin: 0, padding: 0 }}>
+                        <Box
+                          sx={{
+                            perspective: "1000px",
+                            "& > div": {
+                              backgroundColor: "#FFFFFF",
+                              transition: "transform 0.6s",
+                              transformStyle: "preserve-3d",
+                              position: "relative",
+                              width: "100%",
+                              height: "200px",
+                              background: "linear-gradient(#000000, #000000)",
+                              transform: flipped[index]
+                                ? "rotateY(180deg)"
+                                : "rotateY(0deg)",
+                            },
+                            "& > div > div": {
+                              backgroundColor: "#FFFFFF",
+                              position: "absolute",
+                              width: "100%",
+                              height: "200px",
+                              backfaceVisibility: "hidden",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              padding: 2,
+                              boxSizing: "border-box",
+                            },
+                            "& > div > div:nth-of-type(1)": {
+                              backgroundColor: "#FFFFFF",
+                              visibility: flipped[index] ? "hidden" : "visible",
+                            },
+                            "& > div > div:nth-of-type(2)": {
+                              backgroundColor: "#FFFFFF",
+                              transform: "rotateY(180deg)",
+                              visibility: flipped[index] ? "visible" : "hidden",
+                            },
+                          }}
+                        >
+                          <div>
+                            <div>
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{
+                                  fontSize: "1.3rem",
+                                  padding: "10px",
+                                }}
+                              >
+                                {flashcard.front}
+                              </Typography>
+                            </div>
+                            <div>
+                              <Typography
+                                variant="h5"
+                                component="div"
+                                sx={{
+                                  fontSize: "1.0rem",
+                                }}
+                              >
+                                {flashcard.back}
+                              </Typography>
+                            </div>
+                          </div>
+                        </Box>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+            <Box
+              sx={{ mt: 4, mb: 4, display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="contained"
+                sx={{ backgroundColor: "#1565c0" }}
+                onClick={handleOpen}
+              >
+                Save
+              </Button>
+            </Box>
+          </Box>
+        )}
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Save Flashcards</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please enter a name for your flashcards collection
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Collection Name"
+              type="text"
+              fullWidth
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              variant="outlined"
+            ></TextField>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={saveFlashcards}>Save</Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
+    </>
   );
 }

@@ -22,6 +22,13 @@ import {
   CardActions,
   Button,
   TextField,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  AppBar,
+  Toolbar,
+  CircularProgress,
 } from "@mui/material";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -147,6 +154,17 @@ export default function Flashcards() {
 
   return (
     <>
+      <AppBar position="static">
+        <Toolbar>
+          <Button color="inherit" onClick={() => router.push("/flashcards")}>
+            Collections
+          </Button>
+          <Button color="inherit" onClick={() => router.push("/generate")}>
+            Generate
+          </Button>
+        </Toolbar>
+      </AppBar>
+
       <Container maxWidth="md">
         {!search ? (
           <Box
