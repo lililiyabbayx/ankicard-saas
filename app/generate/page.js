@@ -32,7 +32,7 @@ import {
 } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 export default function Generate() {
   const { isLoaded, isSignedIn, user } = useUser();
   const [flashcards, setFlashcards] = useState([]);
@@ -130,6 +130,20 @@ export default function Generate() {
     <>
       <AppBar position="static">
         <Toolbar>
+          <Typography variant="h6">Ankicard</Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <SignedOut>
+            <Button color="inherit" href="/sign-in">
+              Login
+            </Button>
+            <Button color="inherit" href="/sign-up">
+              Sign Up
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+
           <Button color="inherit" onClick={() => router.push("/flashcards")}>
             Collections
           </Button>

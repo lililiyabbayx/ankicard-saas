@@ -30,6 +30,7 @@ import {
   Toolbar,
   CircularProgress,
 } from "@mui/material";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { useSearchParams, useRouter } from "next/navigation";
 
 export default function Flashcards() {
@@ -156,6 +157,20 @@ export default function Flashcards() {
     <>
       <AppBar position="static">
         <Toolbar>
+          <Typography variant="h6">Ankicard</Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <SignedOut>
+            <Button color="inherit" href="/sign-in">
+              Login
+            </Button>
+            <Button color="inherit" href="/sign-up">
+              Sign Up
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+
           <Button color="inherit" onClick={() => router.push("/flashcards")}>
             Collections
           </Button>
