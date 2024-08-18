@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  TextField,
 } from "@mui/material";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -23,6 +24,7 @@ export default function Flashcards() {
   const searchParams = useSearchParams();
   const search = searchParams.get("id");
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     async function getCollections() {
@@ -68,6 +70,11 @@ export default function Flashcards() {
     }));
   };
 
+  // Filter collections based on the search query
+  const filteredCollections = collections.filter((collection) =>
+    collection.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (!isLoaded || !isSignedIn) {
     return <></>;
   }
@@ -86,8 +93,17 @@ export default function Flashcards() {
             }}
           >
             <Typography variant="h4">Flashcard Collections</Typography>
+            {/* Search Box */}
+            <TextField
+              label="Search Collections"
+              variant="outlined"
+              fullWidth
+              sx={{ mt: 3, mb: 3 }}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <Grid container spacing={3} sx={{ mt: 4 }}>
-              {collections.map((collection, index) => (
+              {filteredCollections.map((collection, index) => (
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <Card>
                     <CardActionArea

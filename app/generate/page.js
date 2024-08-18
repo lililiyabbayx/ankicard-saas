@@ -42,6 +42,7 @@ export default function Generate() {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const router = useRouter();
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
