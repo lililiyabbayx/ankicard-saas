@@ -1,22 +1,22 @@
 import Image from "next/image";
-//import getstripe from "@utilis/get-stripe";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Head from "next/head";
 import {
-  Container,
   Toolbar,
   Typography,
   AppBar,
   Button,
   Box,
   Grid,
+  Container,
 } from "@mui/material";
+
 export default function Home() {
   return (
-    <Container>
+    <>
       <Head>
         <title>Ankicard Saas</title>
-        <meta name="description" content="Create flashcard from youe text!" />
+        <meta name="description" content="Create flashcard from your text!" />
       </Head>
 
       <AppBar
@@ -24,12 +24,12 @@ export default function Home() {
         sx={{
           backgroundColor: "#000000", // AppBar background color
           color: "#ffffff",
+          width: "100vw", // Full width
         }}
       >
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {" "}
-            Ankicard{" "}
+            Ankicard
           </Typography>
 
           <SignedOut>
@@ -53,6 +53,7 @@ export default function Home() {
                 "&:hover": {
                   backgroundColor: "#ffffff", // Background color on hover
                 },
+                ml: 2, // Margin left to add some space between buttons
               }}
             >
               Sign Up
@@ -64,16 +65,19 @@ export default function Home() {
           </SignedIn>
         </Toolbar>
       </AppBar>
-      {/*Hero section */}
+
+      {/* Hero section */}
       <Box
         sx={{
           textAlign: "center",
-          my: 6,
+          py: 6, // Adjust vertical padding
+          width: "100vw", // Full width
+          backgroundColor: "#f0f0f0", // Background color for the section
         }}
       >
-        <Typography variant="h3">Welcome to Anki Card</Typography>{" "}
+        <Typography variant="h3">Welcome to Anki Card</Typography>
         <Typography variant="h6">
-          The easist way to make flashcard with text!
+          The easiest way to make flashcards with text!
         </Typography>
         <Button
           variant="contained"
@@ -84,19 +88,20 @@ export default function Home() {
             "&:hover": {
               backgroundColor: "#ffffff", // Background color on hover
             },
+            mt: 4, // Margin top to add space above the button
           }}
         >
           Start Creating
         </Button>
       </Box>
 
-      {/*Features */}
-      <Box>
+      {/* Features */}
+      <Container>
         <Grid container spacing={4}>
           <Grid
             item
-            xs={4}
-            md={3}
+            xs={12}
+            md={5}
             sx={{ backgroundColor: "#000000", padding: 1 }}
           >
             <Typography variant="h3" component="h2" sx={{ color: "#ffffff" }}>
@@ -105,7 +110,7 @@ export default function Home() {
           </Grid>
           <Grid
             item
-            xs={8}
+            xs={12}
             md={7}
             sx={{ backgroundColor: "#14ed2d", padding: 1 }}
           >
@@ -116,7 +121,7 @@ export default function Home() {
               sx={{ color: "#000000" }}
             >
               Easy text input
-            </Typography>{" "}
+            </Typography>
             <Typography
               variant="h6"
               component="h2"
@@ -135,24 +140,24 @@ export default function Home() {
             </Typography>
           </Grid>
         </Grid>
-      </Box>
+      </Container>
 
-      <Box sx={{ my: 8, textAlign: "left" }}>
-        <Typography variant="h2" component="h2" textAlign="center">
+      {/* Pricing */}
+      <Container sx={{ py: 8, textAlign: "center" }}>
+        <Typography variant="h2" component="h2">
           Pricing
         </Typography>
         <Grid container spacing={3}>
-          <Grid item xs={4}>
-            <Box backgroundColor="#000000" sx={{ py: 4 }}>
+          <Grid item xs={12} md={4}>
+            <Box backgroundColor="#000000" sx={{ py: 4, width: "100%" }}>
               <Typography
                 textAlign="center"
                 gutterBottom
                 sx={{ color: "#ffffff" }}
               >
-                Free: $0{" "}
+                Free: $0
               </Typography>
               <Typography textAlign="center" sx={{ color: "#ffffff" }}>
-                {" "}
                 Perfect for getting started
               </Typography>
               <Button
@@ -163,80 +168,75 @@ export default function Home() {
                   "&:hover": {
                     backgroundColor: "#ffffff", // Background color on hover
                   },
-                  display: "block", // Makes the button behave like a block element, which allows it to be centered
-                  mx: "auto", // Centers the button horizontally (auto margin on the left and right)
-                  my: 2, // Adds margin on the top and bottom (you can adjust this value as needed)
+                  display: "block",
+                  mx: "auto",
+                  my: 2,
                 }}
               >
-                {" "}
                 Choose
               </Button>
             </Box>
           </Grid>
-          <Grid item xs={4}>
-            <Box backgroundColor="#000000" sx={{ py: 4 }}>
+          <Grid item xs={12} md={4}>
+            <Box backgroundColor="#000000" sx={{ py: 4, width: "100%" }}>
               <Typography
                 textAlign="center"
                 gutterBottom
                 sx={{ color: "#ffffff" }}
               >
-                Standard: $1{" "}
+                Standard: $1
               </Typography>
               <Typography textAlign="center" sx={{ color: "#ffffff" }}>
-                {" "}
-                Perfect for individual
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: "#14ed2d", // Button background color
-                  color: "#000000", // Button text color
-                  "&:hover": {
-                    backgroundColor: "#ffffff", // Background color on hover
-                  },
-                  display: "block", // Makes the button behave like a block element, which allows it to be centered
-                  mx: "auto", // Centers the button horizontally (auto margin on the left and right)
-                  my: 2, // Adds margin on the top and bottom (you can adjust this value as needed)
-                }}
-              >
-                {" "}
-                Choose
-              </Button>
-            </Box>
-          </Grid>
-          <Grid item xs>
-            <Box backgroundColor="#000000" sx={{ py: 4 }}>
-              <Typography
-                textAlign="center"
-                gutterBottom
-                sx={{ color: "#ffffff" }}
-              >
-                Pro: $5{" "}
-              </Typography>
-              <Typography textAlign="center" sx={{ color: "#ffffff" }}>
-                {" "}
                 Perfect for individuals
               </Typography>
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: "#14ed2d", // Button background color
-                  color: "#000000", // Button text color
+                  backgroundColor: "#14ed2d",
+                  color: "#000000",
                   "&:hover": {
-                    backgroundColor: "#ffffff", // Background color on hover
+                    backgroundColor: "#ffffff",
                   },
-                  display: "block", // Makes the button behave like a block element, which allows it to be centered
-                  mx: "auto", // Centers the button horizontally (auto margin on the left and right)
-                  my: 2, // Adds margin on the top and bottom (you can adjust this value as needed)
+                  display: "block",
+                  mx: "auto",
+                  my: 2,
                 }}
               >
-                {" "}
+                Choose
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Box backgroundColor="#000000" sx={{ py: 4, width: "100%" }}>
+              <Typography
+                textAlign="center"
+                gutterBottom
+                sx={{ color: "#ffffff" }}
+              >
+                Pro: $5
+              </Typography>
+              <Typography textAlign="center" sx={{ color: "#ffffff" }}>
+                Perfect for individuals
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#14ed2d",
+                  color: "#000000",
+                  "&:hover": {
+                    backgroundColor: "#ffffff",
+                  },
+                  display: "block",
+                  mx: "auto",
+                  my: 2,
+                }}
+              >
                 Choose
               </Button>
             </Box>
           </Grid>
         </Grid>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 }
