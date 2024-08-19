@@ -9,7 +9,9 @@ import {
   Box,
   Grid,
   Container,
+  IconButton,
 } from "@mui/material";
+import { GitHub, Instagram, LinkedIn } from "@mui/icons-material";
 
 export default function Home() {
   return (
@@ -120,7 +122,8 @@ export default function Home() {
               textAlign="left"
               sx={{ color: "#000000" }}
             >
-              Easy text input
+              Master Any Subject with Ease – Create, Organize, and Study
+              Flashcards Seamlessly
             </Typography>
             <Typography
               variant="h6"
@@ -128,7 +131,8 @@ export default function Home() {
               textAlign="left"
               sx={{ color: "#000000" }}
             >
-              Simply input your text and let the software do the rest!
+              Boost Your Learning Efficiency – Smart Tools for Quick and
+              Effective Studying
             </Typography>
             <Typography
               variant="h6"
@@ -136,7 +140,8 @@ export default function Home() {
               textAlign="left"
               sx={{ color: "#000000" }}
             >
-              Accessible anywhere
+              Personalize Your Learning Journey – Tailored Flashcards to Match
+              Your Style
             </Typography>
           </Grid>
         </Grid>
@@ -237,6 +242,41 @@ export default function Home() {
           </Grid>
         </Grid>
       </Container>
+
+      {/* Footer */}
+      <Box
+        component="footer"
+        sx={{
+          backgroundColor: "#000000", // Footer background color
+          color: "#ffffff", // Text color
+          py: 4, // Vertical padding
+          textAlign: "center", // Center align content
+          width: "100vw", // Full width
+        }}
+      >
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Follow Me On
+        </Typography>
+        <Box>
+          {/* Social Media Icons */}
+
+          <IconButton
+            href="https://github.com/lililiyabbayx"
+            target="_blank"
+            sx={{ color: "#ffffff" }}
+          >
+            <GitHub />
+          </IconButton>
+
+          <IconButton
+            href="https://www.linkedin.com/in/farhinulfat/"
+            target="_blank"
+            sx={{ color: "#ffffff" }}
+          >
+            <LinkedIn />
+          </IconButton>
+        </Box>
+      </Box>
     </>
   );
 }
