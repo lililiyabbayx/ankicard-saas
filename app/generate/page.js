@@ -128,7 +128,13 @@ export default function Generate() {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "#000000", // AppBar background color
+          color: "#ffffff",
+        }}
+      >
         <Toolbar>
           <Typography variant="h6">Ankicard</Typography>
           <Box sx={{ flexGrow: 1 }} />
@@ -152,6 +158,7 @@ export default function Generate() {
           </Button>
         </Toolbar>
       </AppBar>
+
       <Container maxWidth="md">
         <Box
           sx={{
@@ -174,11 +181,24 @@ export default function Generate() {
               sx={{
                 mb: 2,
                 width: "100%",
+                backgroundColor: "#ffffff", // TextField background color
+                "& .MuiInputBase-input": {
+                  color: "#000000", // Text color inside the TextField
+                },
+                "& .MuiInputLabel-root": {
+                  color: "#000000", // Label text color
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000", // Border color
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000", // Border color on hover
+                },
               }}
             />
             <Button
               variant="contained"
-              color="primary"
+              color="inherit"
               sx={{ mt: 2, left: "50%", transform: "translateX(-50%)" }}
               onClick={handleSubmit}
             >

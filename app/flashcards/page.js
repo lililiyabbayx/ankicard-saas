@@ -156,7 +156,12 @@ export default function Flashcards() {
   return (
     <>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar
+          sx={{
+            backgroundColor: "#000000", // AppBar background color
+            color: "#ffffff",
+          }}
+        >
           <Typography variant="h6">Ankicard</Typography>
           <Box sx={{ flexGrow: 1 }} />
           <SignedOut>
@@ -197,7 +202,23 @@ export default function Flashcards() {
               label="Search Collections"
               variant="outlined"
               fullWidth
-              sx={{ mt: 3, mb: 3 }}
+              sx={{
+                mt: 3,
+                mb: 3,
+                backgroundColor: "#ffffff", // TextField background color
+                "& .MuiInputBase-input": {
+                  color: "#000000", // Text color inside the TextField
+                },
+                "& .MuiInputLabel-root": {
+                  color: "#000000", // Label text color
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000", // Border color
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#000000", // Border color on hover
+                },
+              }}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -216,10 +237,16 @@ export default function Flashcards() {
                         </CardContent>
                       </CardActionArea>
                       <CardActions>
-                        <Button onClick={() => handleEdit(collection.id)}>
+                        <Button
+                          color="inherit"
+                          onClick={() => handleEdit(collection.id)}
+                        >
                           Edit
                         </Button>
-                        <Button onClick={() => handleDelete(collection.id)}>
+                        <Button
+                          color="inherit"
+                          onClick={() => handleDelete(collection.id)}
+                        >
                           Delete
                         </Button>
                       </CardActions>

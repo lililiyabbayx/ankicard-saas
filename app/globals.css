@@ -3,3 +3,17 @@
   padding: 0;
   margin: 0;
 }
+body {
+  background-color: #ffffff; /* Replace with your desired color */
+}
+body {
+  color: #000000; /* Replace with your desired text color */
+}
+button {
+  background-color: #14ed2d; /* Replace with your desired color */
+  color: #000000; /* Button text color */
+}
+
+button:hover {
+  background-color: #ffffff; /* Color on hover */
+}
